@@ -11,7 +11,7 @@ public class Dolar extends Moeda{
         return List.of(0.01,0.05, 0.10, 0.25, 0.50, 1.00);
     }
     public String info(){
-        return "U$D " + this.valor;
+        return "U$D" + this.valor;
     }
     //Aplicando a conversao com o valor do dólar
     public double converter() {

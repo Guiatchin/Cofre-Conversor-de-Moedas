@@ -9,28 +9,28 @@ import java.util.HashMap;
 
 public class Cofrinho {
     Scanner digito = new Scanner(System.in);
-    private ArrayList<Moeda>ListaMoedas = new ArrayList<>();
+    private final ArrayList<Moeda>ListaMoedas = new ArrayList<>();
 
     //Metodo para adicionar moedas no cofrinho
     public void adicionar(Moeda moeda) {
         System.out.println("Digite um valor");
         Scanner entrada = new Scanner(System.in);
         double valor = entrada.nextDouble();
-        if (!moeda.getMoedasDisponiveis().contains(valor)) {
-            System.out.println("Moeda indisponível.");
+        if (!moeda.getMoedasDisponiveis().contains(valor)) { //Verifica se o valor inserido existe como moeda.
+            System.out.println("ATENÇÃO: MOEDA INDISPONÍVEL");
         } else {
             moeda.setValor(valor);
             this.ListaMoedas.add(moeda);
         }
     }
-    //remover todas as moedas do cofrinho
+    //metodo para remover as moedas do cofre
     public void remover(Moeda moeda) {
         this.ListaMoedas.remove(moeda);
     }
-    //detalhar conteúdo do cofrinho.
+    //detalhar conteúdo do cofrinho (opção 4. Listar moedas).
     public void detalhesCofrinho(){
         System.out.println("MOEDAS DISPONIVEIS");
-        System.out.println("_____________________");
+        System.out.println("_________________________");
         System.out.println("| Indice | Valor | Tipo |");
         for (int i = 0; i < this.ListaMoedas.size(); i++){
         Moeda moeda = this.ListaMoedas.get(i);
@@ -39,8 +39,7 @@ public class Cofrinho {
         String nomeMoeda = String.format("%7s", moeda.nome);
         String valor = String.format("%.2f",moeda.getValor());
 
-            System.out.println(moeda.info());
-            System.out.println("| " + posicao + " | " + String.format("%7s", valor) + " | " + nomeMoeda + " | ");
+            System.out.println(" | " + posicao + " | " + String.format("%7s", valor) + " | " + nomeMoeda + "| " + moeda.info());
         }
     }
     //Exibindo valor total do cofrinho com a conversão
@@ -52,8 +51,10 @@ public class Cofrinho {
         }
         return soma;
     }
+
+
     //Iniciando funções do cofrinho
-    public void inicializar() {
+    public void inicializar() { //Menu Inicial
         String acao = "";
         while(!acao.equals("sair")) {
             acao = this.menu();
@@ -104,14 +105,18 @@ public class Cofrinho {
             }
         }
     }
+
     public void menuRetirar() {
         this.detalhesCofrinho();
+
+        if (ListaMoedas.isEmpty()) {
+            System.out.println("nenhuma moeda disponível para retirada");
+        }
         System.out.println("Selecione o indice da moeda que vai ser retirada");
         int opcao = (int)this.selecionarQuantia(true);
         this.remover(this.ListaMoedas.get(opcao));
     }
     public String menu() {
-        //Scanner digito = new Scanner(System.in);
 
         //Opções do Menu
         HashMap<Integer, String> opcoes = new HashMap<Integer, String>();
@@ -145,7 +150,7 @@ public class Cofrinho {
     protected String menuTipoMoeda(boolean remover) {
         Scanner digito = new Scanner(System.in);
         //Definindo opções disponíveis.
-        HashMap<Integer, String> opcoes = new HashMap();
+        HashMap<Integer, String> opcoes = new HashMap<>();
         opcoes.put(1, "dolar");
         opcoes.put(2, "euro");
         opcoes.put(3, "real");
