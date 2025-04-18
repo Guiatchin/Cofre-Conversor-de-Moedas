@@ -51,7 +51,37 @@ public class Cofrinho {
         }
         return soma;
     }
+    public String menu() {
 
+        //Opções do Menu
+        HashMap<Integer, String> opcoes = new HashMap<Integer, String>();
+        opcoes.put(1, "adicionar");
+        opcoes.put(2, "remover");
+        opcoes.put(3,"detalhes");
+        opcoes.put(4,"total");
+        opcoes.put(5, "sair");
+        int digitoSelecionado = 0;
+
+        while(true) {
+            System.out.println("Selecione uma opção: ");
+            System.out.println("1. Adicionar moeda");
+            System.out.println("2. Remover moeda");
+            System.out.println("3. Listar moedas");
+            System.out.println("4. Total convertido");
+            System.out.println("5. Sair");
+
+            if (digito.hasNextInt()) {
+                digitoSelecionado = digito.nextInt();
+                if (digitoSelecionado < 1 ||digitoSelecionado > 5) {
+                    System.out.println("Selecione um do números acima.");
+                } else {
+                    break;
+                }
+            }
+        }
+        return opcoes.get(digitoSelecionado);
+
+    }
 
     //Iniciando funções do cofrinho
     public void inicializar() { //Menu Inicial
@@ -89,7 +119,7 @@ public class Cofrinho {
     public void menuAdicionar(){
         String opcao = "";
 
-        while (opcao != "voltar") {
+        while (!opcao.equals("voltar")) {
             opcao = this.menuTipoMoeda(false);
             switch(opcao) {
                 case "dolar":
@@ -107,46 +137,19 @@ public class Cofrinho {
     }
 
     public void menuRetirar() {
-        this.detalhesCofrinho();
+
 
         if (ListaMoedas.isEmpty()) {
             System.out.println("nenhuma moeda disponível para retirada");
+        } else {
+            this.detalhesCofrinho();
+            System.out.println("Selecione o indice da moeda que vai ser retirada");
+            int opcao = (int) this.selecionarQuantia(true);
+            this.remover(this.ListaMoedas.get(opcao));
+            System.out.println("Moeda removida.");
         }
-        System.out.println("Selecione o indice da moeda que vai ser retirada");
-        int opcao = (int)this.selecionarQuantia(true);
-        this.remover(this.ListaMoedas.get(opcao));
     }
-    public String menu() {
 
-        //Opções do Menu
-        HashMap<Integer, String> opcoes = new HashMap<Integer, String>();
-        opcoes.put(1, "adicionar");
-        opcoes.put(2, "remover");
-        opcoes.put(3,"detalhes");
-        opcoes.put(4,"total");
-        opcoes.put(5, "sair");
-        int digitoSelecionado = 0;
-
-        while(true) {
-            System.out.println("Selecione uma opção: ");
-            System.out.println("1. Adicionar moeda");
-            System.out.println("2. Remover moeda");
-            System.out.println("3. Listar moedas");
-            System.out.println("4. Total convertido");
-            System.out.println("5. Sair");
-
-            if (digito.hasNextInt()) {
-                digitoSelecionado = digito.nextInt();
-                if (digitoSelecionado < 1 ||digitoSelecionado > 5) {
-                    System.out.println("Selecione um do números acima.");
-                } else {
-                    break;
-                }
-            }
-        }
-        return opcoes.get(digitoSelecionado);
-
-    }
     protected String menuTipoMoeda(boolean remover) {
         Scanner digito = new Scanner(System.in);
         //Definindo opções disponíveis.
@@ -158,11 +161,7 @@ public class Cofrinho {
         int digitoSelecionado = 0;
 
         while (digitoSelecionado < 1 || digitoSelecionado > 4) {
-            if (remover) {
-                System.out.println("Qual moeda deseja remover?");
-            } else {
-                System.out.println("Qual moeda deseja adicionar?");
-            }
+
             System.out.println("1. Dólar");
             System.out.println("2. Euro");
             System.out.println("3. Real");
